@@ -1,4 +1,5 @@
 from selenium import webdriver
+import sys
 
 person = input("Enter the name of the person: ")
 msg = input("Enter the message: ")
@@ -11,14 +12,21 @@ browser.get(base_url)
 
 input('Enter anything but scan first')
 
-chathead=browser.find_element_by_xpath("//span[@title='{}']".format(person))
-# print(chathead)
-chathead.click()
+try:
+    chathead=browser.find_element_by_xpath("//span[@title='{}']".format(person))
+    # print(chathead)
+    chathead.click()
+    # //*[@id="main"]/footer/div[1]/div[2]/div/div[2]
+    msgbox = browser.find_element_by_xpath("//*[@id='main']/footer/div[1]/div[2]/div/div[2]")
+except:
+    print('Something went wrong till the chathead path')
+    sys.exit()
 
-msgbox = browser.find_element_by_class_name('_3u328')
-
-
-for i in range(count):
-    msgbox.send_keys(msg + str(i))
-    sendbtn = browser.find_element_by_class_name('_3M-N-')
-    sendbtn.click()
+try:
+    for i in range(count):
+        msgbox.send_keys(msg)
+        sendbtn = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')
+        sendbtn.click()
+except:
+    print(' Error While sending the message or hitting the enter button')
+    sys.exit()
